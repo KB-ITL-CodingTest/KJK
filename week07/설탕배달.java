@@ -1,27 +1,25 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
 
-        int minBags = Integer.MAX_VALUE;
+        int[] dp = new int[N + 1];
+        Arrays.fill(dp, 5000);
 
-        for (int i = 0; i <= N / 3; i++) {
-            int weightBy3 = 3 * i;
-            int remaining = N - weightBy3;
+        dp[3] = 1;
+        if (N >= 5) dp[5] = 1;
 
-            if (remaining % 5 == 0) {
-                int j = remaining / 5;
-                int totalBags = i + j;
-                minBags = Math.min(minBags, totalBags);
-            }
+        for (int i = 6; i <= N; i++) {
+            dp[i] = Math.min(dp[i - 3], dp[i - 5]) + 1;
         }
 
-        if (minBags == Integer.MAX_VALUE) {
-            System.out.println(-1);
+        if (dp[N] >= 5000) {
+            System.out.println(-1); 
         } else {
-            System.out.println(minBags);
+            System.out.println(dp[N]); 
         }
     }
 }
